@@ -14,7 +14,7 @@ app.use(cors({ origin: true, credentials: true }));
 
 // routing
 // api
-app.use("/api/sensor", require("./api/sensor.js"));
+// app.use("/api/sensor", require("./api/sensor.js"));
 app.use("/api/turn_gate", require("./api/turn_gate.js"));
 app.use("/api/history_data", require("./api/history_data.js"));
 app.use("/api/conversation", require("./api/conversation.js"));

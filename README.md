@@ -51,6 +51,19 @@
     response = requests.get(url)
     print(response.json())
     ```
+- GET `api/turn_gate/sensor`(light、switch)
+  - 回傳特定設備的資訊
+    ```
+    import requests
+
+    url = 'http://localhost:8122/api/turn_gate/sensor'
+    headers = {
+	'Content-Type': 'application/json'
+    }
+
+    response = requests.get(url)
+    print(response.json())
+    ```
 - POST `api/turn_gate`
   - 開啟/關閉 所有開關的設備
     ```
@@ -69,20 +82,7 @@
     response = requests.post(url, headers=headers, json=data)
     print(response.json())
     ```
-- GET `api/sensor`
-  - 回傳所有 sensor 的資訊
-    ```
-    import requests
-
-    url = 'http://localhost:8122/api/sensor'
-    headers = {
-	'Content-Type': 'application/json'
-    }
-
-    response = requests.get(url)
-    print(response.json())
-    ```
-- POST `api/one_time_automation/switch`
+- POST `api/automation/switch`(light)
   - 在某個時間點開啟/關閉 
     ```
     # entity_id:ENTITY_ID
@@ -90,7 +90,7 @@
     # triggerTime:'HH:MM:SS'
     import requests
     
-    url = 'http://localhost:8122/api/one_time_automation/switch'
+    url = 'http://localhost:8122/api/automation/switch'
     headers = {
 	'Content-Type': 'application/json'
     }
@@ -120,6 +120,84 @@
     
     response = requests.post(url, headers=headers, json=data)
     print(response.json())
+    ```
+  - POST `api/automation`
+  - 使用HA助理 
+    ```
+    import requests
+
+    url = 'http://localhost:8122/api/automation'
+    headers = {
+        'Content-Type': 'application/json'
+    }
+    data={
+        "entity_id": "switch.your_switch_id",
+  	"state": "on",
+  	"triggerTime": "14:30:00"
+    }
+    
+    response = requests.post(url, headers=headers, json=data)
+    print(response.json())
+    ```
+  - POST `api/light_control/brightness`
+  - 控制電燈亮度
+    ```
+    import requests
+
+    url = 'http://localhost:8122/api/light_control/brightness'  # 替換為你的 API 端點
+    headers = {
+        'Content-Type': 'application/json'
+    }
+
+    data = {
+        "entity_id": "light.your_light_id",  # 替換為你的燈泡實體 ID
+        "brightness": 200  # 設定亮度值，範圍是 0 到 255
+    }
+
+    response = requests.post(url, headers=headers, json=data)
+
+    print(f"Status Code: {response.status_code}")
+    print(f"Response: {response.json()}")
+    ```
+  - POST `api/light_control/color_temp`
+  - 控制電燈色溫
+    ```
+    import requests
+
+    url = 'http://localhost:8122/api/light_control/color_temp'  # 替換為你的 API 端點
+    headers = {
+        'Content-Type': 'application/json'
+    }
+
+    data = {
+    "entity_id": "light.your_light_id",  # 替換為你的燈泡實體 ID
+    "color_temp_kelvin": 3000  # 設定色溫值，以開爾文（Kelvin）為單位
+    }
+
+    response = requests.post(url, headers=headers, json=data)
+
+    print(f"Status Code: {response.status_code}")
+    print(f"Response: {response.json()}")
+    ```
+  - POST `api/light_control/color`
+  - 控制電燈顏色
+    ```
+    import requests
+
+    url = 'http://localhost:8122/api/light_control/color'  # 替換為你的 API 端點
+    headers = {
+        'Content-Type': 'application/json'
+    }
+
+    data = {
+        "entity_id": "light.your_light_id",  # 替換為你的燈泡實體 ID
+        "rgb_color": [255, 100, 100]  # 設定 RGB 顏色值，範圍是 0 到 255 的三個整數組成的數組
+    }
+
+    response = requests.post(url, headers=headers, json=data)
+
+    print(f"Status Code: {response.status_code}")
+    print(f"Response: {response.json()}")
     ```
 ## Prerequisite
 - python3

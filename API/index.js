@@ -20,6 +20,7 @@ app.use("/api/history_data", require("./api/history_data.js"));
 app.use("/api/conversation", require("./api/conversation.js"));
 app.use("/api/automation", require("./api/automation.js"));
 app.use("/api/light_control", require("./api/light_control.js"));
+app.use("/api/login", require("./api/login.js"));
 
 // static files
 app.use("/js", express.static("./js"));

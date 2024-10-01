@@ -121,8 +121,8 @@
     response = requests.post(url, headers=headers, json=data)
     print(response.json())
     ```
-  - POST `api/automation`
-  - 使用HA助理 
+- POST `api/automation`
+	- 使用HA助理 
     ```
     import requests
 
@@ -139,8 +139,8 @@
     response = requests.post(url, headers=headers, json=data)
     print(response.json())
     ```
-  - POST `api/light_control/brightness`
-  - 控制電燈亮度
+- POST `api/light_control/brightness`
+ 	- 控制電燈亮度
     ```
     import requests
 
@@ -159,8 +159,8 @@
     print(f"Status Code: {response.status_code}")
     print(f"Response: {response.json()}")
     ```
-  - POST `api/light_control/color_temp`
-  - 控制電燈色溫
+- POST `api/light_control/color_temp`
+  	- 控制電燈色溫
     ```
     import requests
 
@@ -179,8 +179,8 @@
     print(f"Status Code: {response.status_code}")
     print(f"Response: {response.json()}")
     ```
-  - POST `api/light_control/color`
-  - 控制電燈顏色
+- POST `api/light_control/color`
+  	- 控制電燈顏色
     ```
     import requests
 
@@ -199,6 +199,13 @@
     print(f"Status Code: {response.status_code}")
     print(f"Response: {response.json()}")
     ```
+- POST `/api/login`
+	```
+	>>> import requests
+	>>> a = requests.post("http://163.22.17.184:8122/api/login", json={'account' : 'test', 'password' : '123'})
+	>>> a.text
+	'{"success":true}'	
+	```
 ## Prerequisite
 - python3
 - node : v16 up

@@ -11,7 +11,7 @@ router.get('/', async function(req, res) {
 	try {
 		res.json({ success: true, message: "light control api" });
 	} catch (error) {
-		res.status(500).json({ error: error.message });
+		res.status(500).json({success:false, message: error.message });
 	}
 }
 );
@@ -41,9 +41,9 @@ router.post('/brightness', async function(req, res) {
 		}
 
 		const data = await response.json();
-		res.status(200).json(data);
+		res.status(200).json({success: true, message:data});
 	} catch (error) {
-		res.status(500).json({ error: error.message });
+		res.status(500).json({ success:false, message: error.message });
 	}
 });
 router.post('/color_temp', async function(req, res) {
@@ -71,9 +71,9 @@ router.post('/color_temp', async function(req, res) {
 		}
 
 		const data = await response.json();
-		res.status(200).json(data);
+		res.status(200).json({success: true, message: data});
 	} catch (error) {
-		res.status(500).json({ error: error.message });
+		res.status(500).json({success:false, message: error.message });
 	}
 });
 router.post('/color', async function(req, res) {
@@ -102,9 +102,9 @@ router.post('/color', async function(req, res) {
 		}
 
 		const data = await response.json();
-		res.status(200).json(data);
+		res.status(200).json({success: true, message:data});
 	} catch (error) {
-		res.status(500).json({ error: error.message });
+		res.status(500).json({success:false, message: error.message });
 	}
 });
 

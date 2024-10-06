@@ -121,14 +121,14 @@ router.get('/', async function(req, res) {
         device.entity_id.startsWith('climate.')
         );
         console.log(controllableDevices);
-        res.json(controllableDevices);
+        res.json({success: true, message:controllableDevices});
 	// const search = {"type" : "turn_gate", "method" : "get"};
 	// const result = await crawler.crawlMapConsole('http://163.22.17.184:8123/lovelace/0', search);
 	// console.log(result);
 	// res.json(result);
     }
     catch(e) {
-	const result = {"suc" : false, "msg" : "sth going wrong : " + e};
+	const result = {success : false, message : "sth going wrong : " + e};
 	console.error(e);
 	res.json(result);
     }
@@ -141,10 +141,10 @@ router.get('/sensor', async function(req, res) {
         device.entity_id.startsWith('sensor.')
         );
         console.log(controllableDevices);
-        res.json(controllableDevices);
+        res.json({success: true, message:controllableDevices});
     }
     catch(e) {
-	const result = {"suc" : false, "msg" : "sth going wrong : " + e};
+	const result = {success : false, message : "sth going wrong : " + e};
 	console.error(e);
 	res.json(result);
     }
@@ -157,10 +157,10 @@ router.get('/light', async function(req, res) {
         device.entity_id.startsWith('light.')
         );
         console.log(controllableDevices);
-        res.json(controllableDevices);
+        res.json({success: true, message:controllableDevices});
     }
     catch(e) {
-	const result = {"suc" : false, "msg" : "sth going wrong : " + e};
+	const result = {success : false, message : "sth going wrong : " + e};
 	console.error(e);
 	res.json(result);
     }
@@ -173,10 +173,10 @@ router.get('/switch', async function(req, res) {
         device.entity_id.startsWith('switch.')
         );
         console.log(controllableDevices);
-        res.json(controllableDevices);
+        res.json({success: true, message:controllableDevices});
     }
     catch(e) {
-	const result = {"suc" : false, "msg" : "sth going wrong : " + e};
+	const result = {success : false, message : "sth going wrong : " + e};
 	console.error(e);
 	res.json(result);
     }
@@ -189,10 +189,10 @@ router.get('/climate', async function(req, res) {
         device.entity_id.startsWith('climate.')
         );
         console.log(controllableDevices);
-        res.json(controllableDevices);
+        res.json({success: true, message:controllableDevices});
     }
     catch(e) {
-	const result = {"suc" : false, "msg" : "sth going wrong : " + e};
+	const result = {success : false, message : "sth going wrong : " + e};
 	console.error(e);
 	res.json(result);
     }
@@ -204,14 +204,14 @@ router.post('/', async function(req, res) {
     console.log(`Post input==>State: ${state}, Entity ID: ${entity_id}`);
     try {
         const result = await turnOfforOnDevices(state, entity_id);        
-        res.json(result);
+        res.json({success: true, message:result});
 	// const search = {"type" : "turn_gate", "method" : "post"};
 	// const result = await crawler.crawlMapConsole('http://163.22.17.184:8123/lovelace/0', search);
 	// console.log(result);
 	// res.json(result);
     }
     catch(e) {
-	const result = {"suc" : false, "msg" : "sth going wrong : " + e};
+	const result = {success: false, message : "sth going wrong : " + e};
 	console.error(e);
 	res.json(result);
     }

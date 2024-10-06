@@ -66,10 +66,10 @@ router.get('/', async function(req, res) {
         const historyResults = await Promise.all(historyPromises);
         
         console.log(historyResults);
-        res.json(historyResults);
+        res.json({success: true, message:historyResults});
     }
     catch(e) {
-	const result = {"suc" : false, "msg" : "sth going wrong : " + e};
+	const result = {success : false, message : "sth going wrong : " + e};
 	console.error(e);
 	res.json(result);
     }
@@ -83,10 +83,10 @@ router.post('/', async function(req, res) {
     try {
         const result = await getHistoryData(entity_id); 
         console.log(result);       
-        res.json(result);
+        res.json({success: true, message:result});
     }
     catch(e) {
-            const result = {"suc" : false, "msg" : "sth going wrong : " + e};
+            const result = {success : false, message : "sth going wrong : " + e};
             console.error(e);
             res.json(result);
     }   

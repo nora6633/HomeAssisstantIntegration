@@ -44,7 +44,7 @@ router.post('/', async function(req, res) {
     console.log(`Post input==>text: ${chatText}`);
     try {
         const result = await conversationProcess(chatText, conversationId);
-        res.json({ success: true, data: result });
+        res.json({ success: true, message: result });
     } catch (e) {
         const result = { success: false, message: "Something went wrong: " + e.message };
         console.error(e);

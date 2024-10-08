@@ -3,7 +3,7 @@ This script adds a Tapo device to Home Assistant.
 It uses the Home Assistant API to add the device. 
 The script sends a POST request to the Home Assistant API with the device's IP address, username, and password.
 """
-
+import sys
 import requests
 ha_ip = "163.22.17.184"
 home_assistant_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI4OTI2YzE0OTI2YzY0ZTBmYWQ5MGJhNDc1YjBkYTM2NiIsImlhdCI6MTcyMjI0MjAwNiwiZXhwIjoyMDM3NjAyMDA2fQ.DfwflG8zTXQOy5QCy_xn1QjPApSSgqKFV4bYNzpyAjY'
@@ -29,6 +29,7 @@ def get_flow_id():
     return response.json()['flow_id']
 
 def main(flow_id):
+    # host = input()
     payload = {
             'host': host,
             'username': user_name,
@@ -36,6 +37,13 @@ def main(flow_id):
     }
     url = 'http://%s:8123/api/config/config_entries/flow/%s' % (ha_ip, flow_id)
     response = requests.post(url, json=payload, headers=headers)
-    print(response.json(), url)
+    print(response.json())
 
-main(get_flow_id())
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python tapo_add_device.py <host>")
+        sys.exit(1)
+    host = sys.argv[1]
+    flow_id = get_flow_id()
+    main(flow_id)

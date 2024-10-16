@@ -4,7 +4,7 @@ const fetch = require('cross-fetch');
 // const fetch = require('node-fetch');
 // processing request
 const HOME_ASSISTANT_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI4OTI2YzE0OTI2YzY0ZTBmYWQ5MGJhNDc1YjBkYTM2NiIsImlhdCI6MTcyMjI0MjAwNiwiZXhwIjoyMDM3NjAyMDA2fQ.DfwflG8zTXQOy5QCy_xn1QjPApSSgqKFV4bYNzpyAjY';
-const HA_URL = 'http://163.22.17.184:8123';
+const HA_URL = 'http://163.22.17.116:8123';
 
 // 或取特定設備的歷史資料
 async function getHistoryData(entityId) {

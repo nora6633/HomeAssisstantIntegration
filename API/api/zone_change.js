@@ -4,7 +4,7 @@ const router = express.Router();
 const WebSocket = require('ws');
 
 const HOME_ASSISTANT_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI4OTI2YzE0OTI2YzY0ZTBmYWQ5MGJhNDc1YjBkYTM2NiIsImlhdCI6MTcyMjI0MjAwNiwiZXhwIjoyMDM3NjAyMDA2fQ.DfwflG8zTXQOy5QCy_xn1QjPApSSgqKFV4bYNzpyAjY';
-const HA_URL = 'http://163.22.17.184:8123';
+const HA_URL = 'http://163.22.17.116:8123';
 
 // 用於帶有身份驗證的 fetch 請求
 async function fetchWithAuth(url, options) {
@@ -21,32 +21,32 @@ async function fetchWithAuth(url, options) {
     return response.json();
 }
 
-//切換區域
-// router.post('/update_zone', async function(req, res) {
-//     const { entity_id, new_zone } = req.body;
-//     console.log(`Post input==>entity_id: ${entity_id}, new_zone: ${new_zone}`);
+// 切換區域
+router.post('/update_zone', async function(req, res) {
+    const { entity_id, new_zone } = req.body;
+    console.log(`Post input==>entity_id: ${entity_id}, new_zone: ${new_zone}`);
 
-//     if (!entity_id || !new_zone) {
-//         return res.status(400).json({ success: false, message: "缺少必要的參數" });
-//     }
+    if (!entity_id || !new_zone) {
+        return res.status(400).json({ success: false, message: "缺少必要的參數" });
+    }
 
-//     const updateConfig = {
-//         device_id: entity_id,
-//         area_id: new_zone
-//     };
+    const updateConfig = {
+        entity_id: entity_id,
+        area_name: new_zone
+    };
 
-//     try {
-//         const response = await fetchWithAuth(`${HA_URL}/api/config/device_registry/update`, {
-//             method: 'POST',
-//             body: JSON.stringify(updateConfig),
-//         });
-//         console.log('Home Assistant 回應:', response);
-//         res.json({ success: true, message: response });
-//     } catch (error) {
-//         console.error('切換區域失敗:', error);
-//         res.status(500).json({ success: false, message: "切換區域失敗: " + error.message });
-//     }
-// });
+    try {
+        const response = await fetchWithAuth(`${HA_URL}/api/area_manager/change_entity_area`, {
+            method: 'POST',
+            body: JSON.stringify(updateConfig),
+        });
+        console.log('Home Assistant 回應:', response);
+        res.json({ success: true, message: response });
+    } catch (error) {
+        console.error('切換區域失敗:', error);
+        res.status(500).json({ success: false, message: "切換區域失敗: " + error.message });
+    }
+});
 
 // 獲取所有區域
 router.get('/zones', async function(req, res) {

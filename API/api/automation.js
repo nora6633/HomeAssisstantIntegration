@@ -4,7 +4,7 @@ const router = express.Router();
 
 
 const HOME_ASSISTANT_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI4OTI2YzE0OTI2YzY0ZTBmYWQ5MGJhNDc1YjBkYTM2NiIsImlhdCI6MTcyMjI0MjAwNiwiZXhwIjoyMDM3NjAyMDA2fQ.DfwflG8zTXQOy5QCy_xn1QjPApSSgqKFV4bYNzpyAjY';
-const HA_URL = 'http://163.22.17.184:8123';
+const HA_URL = 'http://163.22.17.116:8123';
 
 // 用於帶有身份驗證的 fetch 請求
 async function fetchWithAuth(url, options) {
@@ -268,16 +268,16 @@ router.get('/', async function(req, res) {
 });
 
 // 新增刪除特定自動化
-router.delete('/:automation_id', async function(req, res) {
-    const { automation_id } = req.params;
-    try {
-        const response = await fetchWithAuth(`${HA_URL}/api/config/automation/config/${automation_id}`, {
-            method: 'DELETE'
-        });
-        res.json({ success: true, data: response });
-    } catch (error) {
-        res.status(500).json({ success: false, message: "刪除自動化失敗: " + error.message });
-    }
-});
+// router.delete('/:automation_id', async function(req, res) {
+//     const { automation_id } = req.params;
+//     try {
+//         const response = await fetchWithAuth(`${HA_URL}/api/config/automation/config/${automation_id}`, {
+//             method: 'DELETE'
+//         });
+//         res.json({ success: true, data: response });
+//     } catch (error) {
+//         res.status(500).json({ success: false, message: "刪除自動化失敗: " + error.message });
+//     }
+// });
 
 module.exports = router;

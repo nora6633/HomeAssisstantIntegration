@@ -5,6 +5,7 @@ import re
 from concurrent.futures import ThreadPoolExecutor
 import time
 import tapo_connect 
+import json
 # Function to ping a single IP address
 def ping_ip(ip):
     # Determine the command based on the OS
@@ -12,7 +13,7 @@ def ping_ip(ip):
     command = ["ping", param, "1", ip, "-W", "1"]
     
     try:
-        print("scan", ip)
+        # print("scan", ip)
         output = subprocess.check_output(command, stderr=subprocess.STDOUT, universal_newlines=True)
         if "ttl" in output.lower():
             return ip
@@ -51,24 +52,24 @@ async def main():
     # For example, '192.168.1' for network '192.168.1.x'
     base_ip = "192.168.0"  # Modify this to match your network base IP
 
-    start_time = time.time()  # Start the timer
-    print("Scanning network... Please wait.")
+    # start_time = time.time()  # Start the timer
+    # print("Scanning network... Please wait.")
     live_ips = scan_network(base_ip)
-    end_time = time.time()  # End the timer
-    
-    
-    if live_ips:
-        print("Live IPs found:")
-        for ip in live_ips:
-            print(ip)
-            try :
-                await getinfo(await tapo_connect.connect(tapo_connect.device_config(tapo_connect.auth, ip)))
-            except Exception as e :
-                print(e)
-    else:
-        print("No live IPs found.")
-    execution_time = end_time - start_time
-    print(f"Execution time: {execution_time:.2f} seconds")
+    # end_time = time.time()  # End the timer
+    print(live_ips if live_ips else [])
+    # if live_ips:
+    #     print("Live IPs found:", live_ips)
+        # print("Live IPs found:")
+        # for ip in live_ips:
+        #     print(ip)
+            # try :
+                # await getinfo(await tapo_connect.connect(tapo_connect.device_config(tapo_connect.auth, ip)))
+            # except Exception as e :
+            #     print(e)
+    # else:
+    #     print("No live IPs found.")
+    # execution_time = end_time - start_time
+    # print(f"Execution time: {execution_time:.2f} seconds")
     return live_ips
 
 if __name__ == "__main__":

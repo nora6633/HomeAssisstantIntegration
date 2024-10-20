@@ -3,7 +3,7 @@ const fetch = require('cross-fetch');
 const WebSocket = require('ws');
 const HOME_ASSISTANT_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI4OTI2YzE0OTI2YzY0ZTBmYWQ5MGJhNDc1YjBkYTM2NiIsImlhdCI6MTcyMjI0MjAwNiwiZXhwIjoyMDM3NjAyMDA2fQ.DfwflG8zTXQOy5QCy_xn1QjPApSSgqKFV4bYNzpyAjY';
 const HA_URL = 'http://163.22.17.116:8123';
-const WS_HA_URL = 'ws://163.22.17.116:8123/api/websocket';
+// const WS_HA_URL = 'ws://163.22.17.116:8123/api/websocket';
 //local test
 // const HOME_ASSISTANT_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmODVkYjkxYTg2MzE0MjNhOGU0NDQyZDFmZmY1ZmRhNSIsImlhdCI6MTcyNjQ3NTU5NSwiZXhwIjoyMDQxODM1NTk1fQ.JMX9kcLbQL15kD22OTqsPVpWZFJcaNDJJrkY8Sidkcc'
 // const HA_URL = 'http://homeassistant.local:8123';
@@ -237,53 +237,5 @@ router.post('/', async function(req, res) {
     }
 });
 
-router.delete('/', async function(req, res) {
-    const { device_id } = req.body;
 
-    if (!device_id) {
-        return res.status(400).json({ success: false, message: "缺少必要的參數" });
-    }
-
-    const socket = new WebSocket(WS_HA_URL);
-
-    socket.onopen = function () {
-        console.log('WebSocket connection opened');
-        socket.send(JSON.stringify({
-            type: 'auth',
-            access_token: HOME_ASSISTANT_TOKEN
-        }));
-    };
-
-    socket.onmessage = function (event) {
-        const message = JSON.parse(event.data);
-        console.log('Received message:', message);
-
-        if (message.type === 'auth_ok') {
-            console.log('Authentication successful');
-            socket.send(JSON.stringify({
-                id: 1,
-                type: 'config/device_registry/remove',
-                device_id: device_id
-            }));
-        } else if (message.type === 'result' && message.id === 1) {
-            if (message.success) {
-                console.log('Device removed successfully');
-                res.json({ success: true, message: 'Device removed successfully' });
-            } else {
-                console.error('Failed to remove device:', message.error);
-                res.status(500).json({ success: false, message: 'Failed to remove device: ' + message.error.message });
-            }
-            socket.close();
-        }
-    };
-
-    socket.onerror = function (error) {
-        console.error('WebSocket error:', error);
-        res.status(500).json({ success: false, message: 'WebSocket error: ' + error.message });
-    };
-
-    socket.onclose = function (event) {
-        // console.log('WebSocket connection closed:', event);
-    };
-});
 module.exports = router;

@@ -5,6 +5,7 @@ const WebSocket = require('ws');
 
 const HOME_ASSISTANT_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI4OTI2YzE0OTI2YzY0ZTBmYWQ5MGJhNDc1YjBkYTM2NiIsImlhdCI6MTcyMjI0MjAwNiwiZXhwIjoyMDM3NjAyMDA2fQ.DfwflG8zTXQOy5QCy_xn1QjPApSSgqKFV4bYNzpyAjY';
 const HA_URL = 'http://163.22.17.116:8123';
+const WS_HA_URL = 'ws://163.22.17.116:8123';
 
 // 用於帶有身份驗證的 fetch 請求
 async function fetchWithAuth(url, options) {
@@ -50,7 +51,7 @@ router.post('/update_zone', async function(req, res) {
 
 // 獲取所有區域
 router.get('/zones', async function(req, res) {
-    const socket = new WebSocket('ws://163.22.17.184:8123/api/websocket');
+    const socket = new WebSocket(`${WS_HA_URL}/api/websocket`);
 
     socket.onopen = function (event) {
         console.log('WebSocket connection opened');
@@ -90,7 +91,7 @@ router.get('/zones', async function(req, res) {
 // 獲取設備區域
 router.get('/device_zones', async function(req, res) {
     try {
-        const socket = new WebSocket('ws://163.22.17.184:8123/api/websocket')
+        const socket = new WebSocket(`${WS_HA_URL}/api/websocket`)
         let areas = [];
         let devices = [];
         let entities = [];

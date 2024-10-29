@@ -1,6 +1,6 @@
 import requests
 
-BASE_URL = "http://localhost:8122/api/hot_key"
+BASE_URL = "http://163.22.17.116:8122/api/hot_key"
 
 def test_get_all_hotkeys():
     response = requests.get(BASE_URL)

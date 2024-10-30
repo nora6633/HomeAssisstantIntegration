@@ -91,4 +91,55 @@ router.post('/', async function(req, res) {
             res.json(result);
     }   
     });
+//取得特定設備的歷史資料
+router.get('/power', async function(req, res) {
+    // const { entity_id } = req.body;
+    // console.log(req.body);
+    // console.log(`Post input==>Entity ID: ${entity_id}`);
+    try {
+        // 使用 Home Assistant API 進行請求以獲取所有設備狀態
+        const response = await fetch(`${HA_URL}/api/states`, {
+            headers: { 
+                Authorization: 'Bearer ' + HOME_ASSISTANT_TOKEN, // 替換為你的實際訪問令牌
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const body = await response.json();
+        
+        // 過濾家電狀態字串內有power
+        const applianceStates = body.filter(entity => entity.entity_id.startsWith('sensor.') && entity.entity_id.includes('power'));
+        // const applianceStates = body.filter(entity => entity.entity_id.startsWith('switch.') || entity.entity_id.startsWith('light.') || entity.entity_id.startsWith('sensor.'));
+        
+        // 取得每個設備的歷史資料
+        const historyPromises = applianceStates.map(async (entity) => {
+            const historyResponse = await fetch(`${HA_URL}/api/history/period?filter_entity_id=${entity.entity_id}`, {
+                headers: { 
+                    Authorization: 'Bearer ' + HOME_ASSISTANT_TOKEN, 
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (!historyResponse.ok) {
+                throw new Error(`HTTP error! status: ${historyResponse.status}`);
+            }
+
+            const historyData = await historyResponse.json();
+            console.log(historyData);
+            return { entity_id: entity.entity_id, history: historyData };
+        });
+        const historyResults = await Promise.all(historyPromises);
+        
+        console.log(historyResults);
+        res.json({success: true, message:historyResults});
+    }
+    catch(e) {
+            const result = {success : false, message : "sth going wrong : " + e};
+            console.error(e);
+            res.json(result);
+    }   
+    });
 module.exports = router;

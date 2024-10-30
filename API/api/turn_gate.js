@@ -76,10 +76,10 @@ async function turnOfforOnDevices(state, post_entity_id) {
         if (state !== 'on' && state !== 'off') {
             throw new Error('Invalid state: ' + state);
         }
-        if (state === 'toggle') {
-            console.log('Toggling a device...');
+        // if (state === 'toggle') {
+        //     console.log('Toggling a device...');
             
-        }
+        // }
         if (post_entity_id === 'all'){
             const devices = await getAllDevices();
             const controllableDevices = devices.filter(device => 
@@ -218,6 +218,7 @@ router.get('/climate', async function(req, res) {
     }
 });
 
+//開啟或關閉設備
 router.post('/', async function(req, res) {
     const { state, entity_id } = req.body;
     console.log(req.body);

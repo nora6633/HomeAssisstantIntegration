@@ -21,9 +21,9 @@ async function fetchWithAuth(url, options) {
     return response.json();
 }
 // 創建每周定時自動化
-async function createWeeklyAutomation(automationConfig) {
+async function createWeeklyAutomation(automationConfig,entity_id) {
     try {
-        const randomAutomationId = generateUniqueAutomationId();
+        const randomAutomationId = generateUniqueAutomationId(entity_id);
         const response = await fetchWithAuth(`${HA_URL}/api/config/automation/config/${randomAutomationId}`, {
             method: 'POST',
             body: JSON.stringify(automationConfig),
@@ -36,9 +36,9 @@ async function createWeeklyAutomation(automationConfig) {
     }
 }
 // 創建一次性自動化
-async function createOneTimeAutomation(automationConfig) {
+async function createOneTimeAutomation(automationConfig,entity_id) {
     try {
-        const randomAutomationId = generateUniqueAutomationId();
+        const randomAutomationId = generateUniqueAutomationId(entity_id);
         const response = await fetchWithAuth(`${HA_URL}/api/config/automation/config/${randomAutomationId}`, {
             method: 'POST',
             body: JSON.stringify(automationConfig),
@@ -50,14 +50,17 @@ async function createOneTimeAutomation(automationConfig) {
         throw error;
     }
 }
-function generateUniqueAutomationId() {
+function generateUniqueAutomationId(entity_id) {
     const timestamp = Date.now(); // 獲取當前時間戳
     const randomNum = Math.floor(Math.random() * 100000); // 生成隨機數
-    return `automation_${timestamp}_${randomNum}`;
+    return `${entity_id}_${timestamp}_${randomNum}`;
 }
 router.post('/switch', async function(req, res) {
     const { entity_id, state, triggerTime } = req.body;
     //檢查triggerTime格式: HH:MM:SS
+    if (entity_id === undefined || state === undefined || triggerTime === undefined) {
+        return res.status(400).json({ success: false, message: "缺少必要的參數" });
+    }
     const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
     if (!timeRegex.test(triggerTime)) {
         return res.status(400).json({ success: false, message: "無效的時間格式" });
@@ -73,8 +76,8 @@ router.post('/switch', async function(req, res) {
     }
 
     const automationConfig = {
-        alias: "一次性控制插座",
-        description: `在指定時間${state === 'on' ? '打開' : '關閉'}插座`,
+        alias: `在${triggerTime} ${state === 'on' ? '打開' : '關閉'}插座 `,
+        description: `${entity_id}在${triggerTime}${state === 'on' ? '打開' : '關閉'}插座`,
         trigger: {
             platform: "time",
             at: triggerTime
@@ -91,7 +94,7 @@ router.post('/switch', async function(req, res) {
     };
 
     try {
-        const result = await createOneTimeAutomation(automationConfig);
+        const result = await createOneTimeAutomation(automationConfig,entity_id);
         res.json({ success: true, data: result });
     } catch (error) {
         res.status(500).json({ success: false, message: "創建一次性自動化失敗: " + error.message });
@@ -101,6 +104,9 @@ router.post('/switch', async function(req, res) {
 router.post('/light', async function(req, res) {
     const { entity_id, state, triggerTime } = req.body;
     //檢查triggerTime格式: HH:MM:SS
+    if (entity_id === undefined || state === undefined || triggerTime === undefined) {
+        return res.status(400).json({ success: false, message: "缺少必要的參數" });
+    }
     const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
     if (!timeRegex.test(triggerTime)) {
         return res.status(400).json({ success: false, message: "無效的時間格式" });
@@ -114,8 +120,8 @@ router.post('/light', async function(req, res) {
         return res.status(400).json({ success: false, message: "無效的狀態" });
     }
     const automationConfig = {
-        alias: "一次性控制燈光",
-        description: `在指定時間${state === 'on' ? '打開' : '關閉'}燈光`,
+        alias: `在${triggerTime} ${state === 'on' ? '打開' : '關閉'}燈光`,
+        description: `${entity_id}在${triggerTime}${state === 'on' ? '打開' : '關閉'}燈光`,
         trigger: {
             platform: "time",
             at: triggerTime
@@ -132,7 +138,7 @@ router.post('/light', async function(req, res) {
         mode: "single"
     };
     try {
-        const result = await createOneTimeAutomation(automationConfig);
+        const result = await createOneTimeAutomation(automationConfig,entity_id);
         res.json({ success: true, data: result });
     } catch (error) {
         res.status(500).json({ success: false, message: "創建一次性自動化失敗: " + error.message });
@@ -149,6 +155,9 @@ function getWeekdayNames(daysOfWeek) {
 router.post('/weekly-switch', async function(req, res) {
     const { entity_id, state, daysOfWeek, triggerTime } = req.body;
     //檢查triggerTime格式: HH:MM:SS
+    if (entity_id === undefined || state === undefined || daysOfWeek === undefined || triggerTime === undefined) {
+        return res.status(400).json({ success: false, message: "缺少必要的參數" });
+    }
     const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
     if (!timeRegex.test(triggerTime)) {
         return res.status(400).json({ success: false, message: "無效的時間格式" });
@@ -168,18 +177,40 @@ router.post('/weekly-switch', async function(req, res) {
         return res.status(400).json({ success: false, message: "無效的狀態" });
     }
 
-    const triggers = daysOfWeek.map(day => ({
-        platform: "time",
-        at: triggerTime,
-        weekday: day
-    }));
+    // const triggers = daysOfWeek.map(day => ({
+    //     platform: "time",
+    //     at: triggerTime,
+    //     weekday: day
+    // }));
 
     const weekdayNames = getWeekdayNames(daysOfWeek);
-
+    const weekdays = daysOfWeek.map(day => {
+        switch (day) {
+            case 0: return 'sun';
+            case 1: return 'mon';
+            case 2: return 'tue';
+            case 3: return 'wed';
+            case 4: return 'thu';
+            case 5: return 'fri';
+            case 6: return 'sat';
+            default: return '';
+        }
+    });
     const automationConfig = {
-        alias: "每周定時控制插座",
-        description: `在每周的${weekdayNames} ${triggerTime} ${state === 'on' ? '打開' : '關閉'}插座`,
-        trigger: triggers,
+        alias: `每周${weekdayNames} ${triggerTime} ${state === 'on' ? '打開' : '關閉'}插座`,
+        description: `${entity_id}在每周的${weekdayNames} ${triggerTime} ${state === 'on' ? '打開' : '關閉'}插座`,
+        trigger: [
+            {
+                platform: 'time',
+                at: triggerTime
+            }
+        ],
+        condition: [
+            {
+                condition: 'time',
+                weekday: weekdays
+            }
+        ],
         action: [
             {
                 service: Service,
@@ -192,7 +223,7 @@ router.post('/weekly-switch', async function(req, res) {
     };
 
     try {
-        const result = await createWeeklyAutomation(automationConfig);
+        const result = await createWeeklyAutomation(automationConfig,entity_id);
         res.json({ success: true, data: result });
     } catch (error) {
         res.status(500).json({ success: false, message: "創建每周定時自動化失敗: " + error.message });
@@ -202,8 +233,13 @@ router.post('/weekly-switch', async function(req, res) {
 router.post('/weekly-light', async function(req, res){
     const { entity_id, state, daysOfWeek, triggerTime } = req.body;
     //檢查triggerTime格式: HH:MM:SS
+    // console.log(entity_id, state, daysOfWeek, triggerTime);
+    if (entity_id === undefined || state === undefined || daysOfWeek === undefined || triggerTime === undefined) {
+        return res.status(400).json({ success: false, message: "缺少必要的參數" });
+    }
     const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
     if (!timeRegex.test(triggerTime)) {
+        console.log(triggerTime);
         return res.status(400).json({ success: false, message: "無效的時間格式" });
     }
 
@@ -228,11 +264,34 @@ router.post('/weekly-light', async function(req, res){
     }));
 
     const weekdayNames = getWeekdayNames(daysOfWeek);
-
+    // 將 daysOfWeek 轉換為 Home Assistant 的格式
+    const weekdays = daysOfWeek.map(day => {
+        switch (day) {
+            case 0: return 'sun';
+            case 1: return 'mon';
+            case 2: return 'tue';
+            case 3: return 'wed';
+            case 4: return 'thu';
+            case 5: return 'fri';
+            case 6: return 'sat';
+            default: return '';
+        }
+    });
     const automationConfig = {
-        alias: "每周定時控制燈泡",
-        description: `在每周的${weekdayNames} ${triggerTime} ${state === 'on' ? '打開' : '關閉'}燈泡`,
-        trigger: triggers,
+        alias: `每周的${weekdayNames} ${triggerTime} ${state === 'on' ? '打開' : '關閉'}燈泡`,
+        description: `${entity_id}在每周的${weekdayNames} ${triggerTime} ${state === 'on' ? '打開' : '關閉'}燈泡`,
+        trigger: [
+            {
+                platform: 'time',
+                at: triggerTime
+            }
+        ],
+        condition: [
+            {
+                condition: 'time',
+                weekday: weekdays
+            }
+        ],
         action: [
             {
                 service: Service,
@@ -245,7 +304,7 @@ router.post('/weekly-light', async function(req, res){
     };
 
     try {
-        const result = await createWeeklyAutomation(automationConfig);
+        const result = await createWeeklyAutomation(automationConfig,entity_id);
         res.json({ success: true, data: result });
     } catch (error) {
         res.status(500).json({ success: false, message: "創建每周定時自動化失敗: " + error.message });
@@ -267,17 +326,19 @@ router.get('/', async function(req, res) {
     }
 });
 
-// 新增刪除特定自動化
-// router.delete('/:automation_id', async function(req, res) {
-//     const { automation_id } = req.params;
-//     try {
-//         const response = await fetchWithAuth(`${HA_URL}/api/config/automation/config/${automation_id}`, {
-//             method: 'DELETE'
-//         });
-//         res.json({ success: true, data: response });
-//     } catch (error) {
-//         res.status(500).json({ success: false, message: "刪除自動化失敗: " + error.message });
-//     }
-// });
+// 刪除自動化
+router.post('/delete_automation', async function(req, res) {
+    const { automation_id } = req.params;
+
+    try {
+        const response = await fetchWithAuth(`${HA_URL}/api/config/automation/config/${automation_id}`, {
+            method: 'DELETE',
+        });
+        res.json({ success: true, message: response });
+    } catch (error) {
+        console.error('刪除自動化失敗:', error);
+        res.status(500).json({ success: false, message: "刪除自動化失敗: " + error.message });
+    }
+});
 
 module.exports = router;

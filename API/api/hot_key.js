@@ -6,7 +6,9 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'test',
     password: 'test#313',
-    database: 'home_assistant'
+    database: 'home_assistant',
+	keepAliveInitialDelay: 10000, // 0 by default.
+	enableKeepAlive: true, // false by default.
 });
 
 // 建立資料庫連線

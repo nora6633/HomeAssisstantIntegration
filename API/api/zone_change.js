@@ -7,6 +7,27 @@ const HOME_ASSISTANT_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI4O
 const HA_URL = 'http://163.22.17.116:8123';
 const WS_HA_URL = 'ws://163.22.17.116:8123';
 
+const mysql = require('mysql2');
+
+// 設定 MySQL 連線
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'test',
+    password: 'test#313',
+    database: 'home_assistant',
+	keepAliveInitialDelay: 10000, // 0 by default.
+	enableKeepAlive: true, // false by default.
+});
+
+// 建立資料庫連線
+db.connect((err) => {
+    if (err) {
+        console.error('資料庫連線失敗:', err);
+        return;
+    }
+    console.log('已成功連線到 MySQL 資料庫');
+});
+
 // 用於帶有身份驗證的 fetch 請求
 async function fetchWithAuth(url, options) {
     options.headers = {
@@ -27,17 +48,20 @@ router.post('/update_zone', async function(req, res) {
     const { entity_id, new_zone } = req.body;
     console.log(`Post input==>entity_id: ${entity_id}, new_zone: ${new_zone}`);
 
-    if (!entity_id || !new_zone) {
-        return res.status(400).json({ success: false, message: "缺少必要的參數" });
-    }
 
-    const updateConfig = {
+    /*
+	const updateConfig = {
         entity_id: entity_id,
         area_name: new_zone
     };
+	*/
+
+	const updateConfig = {
+  		"area_id": "wo_shi"
+	};
 
     try {
-        const response = await fetchWithAuth(`${HA_URL}/api/area_manager/change_entity_area`, {
+        const response = await fetchWithAuth(`${HA_URL}/api/v1/devices/1f83866f6e8797f000afebc3d5313d95`, {
             method: 'POST',
             body: JSON.stringify(updateConfig),
         });
@@ -48,6 +72,37 @@ router.post('/update_zone', async function(req, res) {
         res.status(500).json({ success: false, message: "切換區域失敗: " + error.message });
     }
 });
+
+router.get('/', async function(req, res) {
+  	const query = `
+	SELECT * FROM device;
+  	`;
+    db.query(query, (err, result) => {
+        if (err) {
+			console.error(err);
+			res.status(500).json({ success: false, message: err });
+        } else {
+            res.status(200).json({ message: result});
+        }
+    });
+})
+
+router.post('/', async function(req, res) {
+    const { entity_name, zone } = req.body;
+  	const query = `
+    INSERT INTO device (name, zone)
+    VALUES (?, ?)
+	ON DUPLICATE KEY UPDATE zone = ?;
+  	`;
+    db.query(query, [entity_name, zone, zone], (err, result) => {
+        if (err) {
+			console.error(err);
+			res.status(500).json({ success: false, message: "修改分區失敗" });
+        } else {
+            res.status(201).json({ message: '修改成功'});
+        }
+    });
+})
 
 // 獲取所有區域
 router.get('/zones', async function(req, res) {

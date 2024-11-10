@@ -112,7 +112,7 @@ router.get('/power', async function(req, res) {
         const body = await response.json();
         
         // 過濾家電狀態字串內有power
-        const applianceStates = body.filter(entity => entity.entity_id.startsWith('sensor.') && entity.entity_id.includes('power'));
+        const applianceStates = body.filter(entity => entity.entity_id.startsWith('sensor.') && entity.entity_id.includes('power') && entity.entity_id.includes('statistics'));
         // const applianceStates = body.filter(entity => entity.entity_id.startsWith('switch.') || entity.entity_id.startsWith('light.') || entity.entity_id.startsWith('sensor.'));
         
         // 取得每個設備的歷史資料

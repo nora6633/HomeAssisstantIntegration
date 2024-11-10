@@ -328,11 +328,16 @@ router.get('/', async function(req, res) {
 
 // 刪除自動化
 router.post('/delete_automation', async function(req, res) {
-    const { automation_id } = req.params;
+    const { automation_id } = req.body;
+
+    if (!automation_id) {
+        return res.status(400).json({ success: false, message: "缺少必要的參數 automation_id" });
+    }
 
     try {
         const response = await fetchWithAuth(`${HA_URL}/api/config/automation/config/${automation_id}`, {
-            method: 'DELETE',
+            
+            method:'DELETE',
         });
         res.json({ success: true, message: response });
     } catch (error) {

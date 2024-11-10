@@ -1,6 +1,32 @@
 import requests
+from datetime import datetime
+
+# 取得當前時間
+current_time = datetime.now()
+time_str = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
 BASE_URL = "http://163.22.17.116:8122/api/hot_key"
+
+class ZoneChange :
+    url = 'http://163.22.17.116:8122/api/zone_change'
+    def __init__(self) :
+        pass
+
+    def get(self) :
+        response = requests.get(self.url)
+        if response.status_code == 200:
+            print("查詢成功:", response.json())
+        else:
+            print("查詢失敗:", response.status_code)
+        return True
+
+    def post(self, name, zone) :
+        response = requests.post(self.url, {'entity_name' : name, 'zone' : zone})
+        if response.status_code == 201:
+            print("修改成功:", response.json())
+        else:
+            print("修改失敗:", response.status_code)
+        return True
 
 def test_get_all_hotkeys():
     response = requests.get(BASE_URL)
@@ -51,4 +77,7 @@ if __name__ == "__main__":
     test_create_hotkey()
     test_update_hotkey()
     test_delete_hotkey()
+    zone_change = ZoneChange()
+    zone_change.post('test', '冰箱' + time_str)
+    print(zone_change.get())
 

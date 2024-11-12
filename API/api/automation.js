@@ -50,6 +50,21 @@ async function createOneTimeAutomation(automationConfig,entity_id) {
         throw error;
     }
 }
+//創建場景
+async function createScene(sceneConfig) {
+    try {
+        const randomAutomationId = generateUniqueAutomationId("scene.");
+        const response = await fetchWithAuth(`${HA_URL}/api/config/scene/config/${randomAutomationId}`, {
+            method: 'POST',
+            body: JSON.stringify(sceneConfig),
+        });
+        return response;
+    }
+    catch (error) {
+        console.error('創建場景失敗:', error);
+        throw error;
+    }
+}
 function generateUniqueAutomationId(entity_id) {
     const timestamp = Date.now(); // 獲取當前時間戳
     const randomNum = Math.floor(Math.random() * 100000); // 生成隨機數
@@ -345,5 +360,60 @@ router.post('/delete_automation', async function(req, res) {
         res.status(500).json({ success: false, message: "刪除自動化失敗: " + error.message });
     }
 });
+// 創建場景
+router.post('/create_scene', async function(req, res) {
+    const { name, entities } = req.body;
 
+    if (!name || !entities) {
+        return res.status(400).json({ success: false, message: "缺少必要的參數" });
+    }
+
+    const sceneConfig = {
+        name: name,
+        entities: entities
+    };
+
+    try {
+        
+        const response = await createScene(sceneConfig);
+        res.json({ success: true, data: response });
+    } catch (error) {
+        console.error('創建場景失敗:', error);
+        res.status(500).json({ success: false, message: "創建場景失敗: " + error.message });
+    }
+});
+
+router.get('/', async function(req, res) {
+    try {
+        const response = await fetchWithAuth(`${HA_URL}/api/states`, {
+            method: 'GET'
+        });
+
+        const automations = response.filter(state => state.entity_id.startsWith('automation.'));
+        res.json({ success: true, data: automations });
+        console.log(automations);
+    } catch (error) {
+        res.status(500).json({ success: false, message: "獲取自動化失敗: " + error.message });
+    }
+});
+
+// 刪除自動化
+router.post('/delete_scene', async function(req, res) {
+    const { scene_id } = req.body;
+
+    if (!scene_id) {
+        return res.status(400).json({ success: false, message: "缺少必要的參數 scene_id" });
+    }
+
+    try {
+        const response = await fetchWithAuth(`${HA_URL}/api/config/scene/config/${scene_id}`, {
+            
+            method:'DELETE',
+        });
+        res.json({ success: true, message: response });
+    } catch (error) {
+        console.error('刪除自動化失敗:', error);
+        res.status(500).json({ success: false, message: "刪除自動化失敗: " + error.message });
+    }
+});
 module.exports = router;

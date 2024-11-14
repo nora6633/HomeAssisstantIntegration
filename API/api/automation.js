@@ -46,7 +46,7 @@ async function createOneTimeAutomation(automationConfig,entity_id) {
 
         return response;
     } catch (error) {
-        console.error('創建一次性自動化失敗:', error);
+        console.error('創建自動化失敗:', error);
         throw error;
     }
 }
@@ -416,4 +416,58 @@ router.post('/delete_scene', async function(req, res) {
         res.status(500).json({ success: false, message: "刪除自動化失敗: " + error.message });
     }
 });
+
+//當某個裝置打開或關閉時，打開或關閉另一個裝置
+router.post('/device_link', async function(req, res) {
+    const { entity_id, state, target_entity_id, target_state } = req.body;
+    //判斷target_entity_id是switch還是light
+    if (target_entity_id.startsWith('switch.')) {
+        service = target_state === 'on' ? 'switch.turn_on' : 'switch.turn_off';
+        targetname = '插座';
+    } else if (target_entity_id.startsWith('light.')) {
+        service = target_state === 'on' ? 'light.turn_on' : 'light.turn_off';
+        targetname = '燈光';
+    } else {
+        return res.status(400).json({ success: false, message: "無效的目標裝置" });
+    }
+    if (entity_id.startsWith('switch.')) {
+        source = '插座';
+    } else if (entity_id.startsWith('light.')) {
+        source = '電燈';
+    } else {
+        return res.status(400).json({ success: false, message: "無效的裝置" });
+    }
+    if (!entity_id || !state || !target_entity_id || !target_state) {
+        return res.status(400).json({ success: false, message: "缺少必要的參數" });
+    }
+
+    try {
+        const automationConfig = {
+            alias: `當${source}${state === 'on' ? '打開' : '關閉'}時，${targetname}${target_state === 'on' ? '打開' : '關閉'}`,
+            description: `當${entity_id}${state === 'on' ? '打開' : '關閉'}時，${target_entity_id} ${target_state === 'on' ? '打開' : '關閉'}`,
+            trigger: [
+                {
+                    platform: "state",
+                    entity_id: entity_id,
+                    to: state
+                }
+            ],
+            action: [
+                {
+                    service: service,
+                    target: {
+                        entity_id: target_entity_id
+                    }
+                }
+            ],
+            mode: "single"
+        };
+
+        const result = await createOneTimeAutomation(automationConfig, target_entity_id);
+        res.json({ success: true, data: result });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "創建自動化失敗: " + error.message });
+    }
+});
+
 module.exports = router;

@@ -419,23 +419,14 @@ router.post('/delete_scene', async function(req, res) {
 
 //當某個裝置打開或關閉時，打開或關閉另一個裝置
 router.post('/device_link', async function(req, res) {
-    const { entity_id, state, target_entity_id, target_state } = req.body;
+    const { entity_name, entity_id, state, target_entity_name, target_entity_id, target_state } = req.body;
     //判斷target_entity_id是switch還是light
     if (target_entity_id.startsWith('switch.')) {
         service = target_state === 'on' ? 'switch.turn_on' : 'switch.turn_off';
-        targetname = '插座';
     } else if (target_entity_id.startsWith('light.')) {
         service = target_state === 'on' ? 'light.turn_on' : 'light.turn_off';
-        targetname = '燈光';
     } else {
         return res.status(400).json({ success: false, message: "無效的目標裝置" });
-    }
-    if (entity_id.startsWith('switch.')) {
-        source = '插座';
-    } else if (entity_id.startsWith('light.')) {
-        source = '電燈';
-    } else {
-        return res.status(400).json({ success: false, message: "無效的裝置" });
     }
     if (!entity_id || !state || !target_entity_id || !target_state) {
         return res.status(400).json({ success: false, message: "缺少必要的參數" });
@@ -443,7 +434,7 @@ router.post('/device_link', async function(req, res) {
 
     try {
         const automationConfig = {
-            alias: `當${source}${state === 'on' ? '打開' : '關閉'}時，${targetname}${target_state === 'on' ? '打開' : '關閉'}`,
+            alias: `當${entity_name}${state === 'on' ? '打開' : '關閉'}時，${target_entity_name}${target_state === 'on' ? '打開' : '關閉'}`,
             description: `當${entity_id}${state === 'on' ? '打開' : '關閉'}時，${target_entity_id} ${target_state === 'on' ? '打開' : '關閉'}`,
             trigger: [
                 {

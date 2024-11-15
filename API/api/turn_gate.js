@@ -136,6 +136,7 @@ router.get('/', async function(req, res) {
 		const devices = await getAllDevices();
         const controllableDevices = devices.filter(device => 
         device.entity_id.startsWith('sensor.') ||
+        device.entity_id.startsWith('binary_sensor.') ||
         device.entity_id.startsWith('light.') || 
         device.entity_id.startsWith('switch.') || 
         device.entity_id.startsWith('climate.')

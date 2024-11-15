@@ -169,6 +169,21 @@ router.get('/sensor', async function(req, res) {
 	res.json(result);
     }
 });
+router.get('/binary_sensor.', async function(req, res) {
+    try {
+		const devices = await getAllDevices();
+        const controllableDevices = devices.filter(device => 
+        device.entity_id.startsWith('binary_sensor..')
+        );
+        console.log(controllableDevices);
+        res.json({success: true, message:controllableDevices});
+    }
+    catch(e) {
+	const result = {success : false, message : "sth going wrong : " + e};
+	console.error(e);
+	res.json(result);
+    }
+});
 router.get('/scene', async function(req, res) {
     try {
 		const devices = await getAllDevices();

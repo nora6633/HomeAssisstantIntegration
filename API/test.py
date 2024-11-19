@@ -72,6 +72,31 @@ def test_delete_hotkey():
     else:
         print("刪除失敗:", response.status_code)
 
+def test_insert_account():
+    BASE_URL = "http://163.22.17.116:8122/api/account"
+    data = {
+        "account": 'test',
+        "password": "123"
+    }
+    response = requests.post(BASE_URL, json=data)
+    if response.status_code == 201:
+        print("新增帳號成功:", response.json())
+        test_login(data['account'], data['password'])
+    else:
+        print("新增帳號失敗:", response.status_code)
+
+def test_login(account, password):
+    BASE_URL = "http://163.22.17.116:8122/api/login"
+    data = {
+        "account": account,
+        "password": password
+    }
+    response = requests.post(BASE_URL, json=data)
+    if response.status_code == 200:
+        print("登入成功:", response.json())
+    else:
+        print("登入失敗:", response.status_code)
+
 if __name__ == "__main__":
     test_get_all_hotkeys()
     test_create_hotkey()
@@ -80,4 +105,4 @@ if __name__ == "__main__":
     zone_change = ZoneChange()
     zone_change.post('test', '冰箱' + time_str)
     print(zone_change.get())
-
+    test_insert_account()

@@ -25,6 +25,7 @@ app.use("/api/zone_change", require("./api/zone_change.js"));
 app.use("/api/tapo", require("./api/tapo.js"));
 app.use("/api/hot_key", require("./api/hot_key.js"));
 app.use("/api/account", require("./api/account.js"));
+app.use("/api/device", require("./api/device.js"));
 
 // static files
 app.use("/js", express.static("./js"));

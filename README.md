@@ -1,4 +1,7 @@
 # HomeAssisstant-Integration
+## 流程圖
+<img width="326" alt="image" src="https://github.com/user-attachments/assets/24043d8b-f92f-49a1-91ca-0f40eb69dc56">
+
 ## Intro
 - 建立並整合 Home Assisstant 部分功能，並提供前端需要顯示的資訊
 - 使用 Express 建立 API Server，前端只需呼叫 API 即可拿到 Home Assisstant 相關資料

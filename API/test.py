@@ -105,7 +105,7 @@ class Device :
         BASE_URL = "http://163.22.17.116:8122/api/device/discovery"
         response = requests.get(BASE_URL)
         if response.status_code == 200:
-            print("搜尋裝置成功", type(response.json()[0]))
+            print("搜尋裝置成功", response.json())
             self.insert(list(response.json()[0].keys())[0])
         else:
             print("搜尋裝置失敗:", response.status_code)

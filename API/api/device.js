@@ -115,7 +115,7 @@ router.post('/', async function(req, res) {
 		'password': password
     	    })
 	});
-	res.json(result);
+	res.status(201).json(result);
     }
     catch(e) {
         console.error(e);

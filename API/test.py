@@ -97,6 +97,32 @@ def test_login(account, password):
     else:
         print("登入失敗:", response.status_code)
 
+class Device :
+    def __init__(self) :
+        pass
+
+    def discovery(self):
+        BASE_URL = "http://163.22.17.116:8122/api/device/discovery"
+        response = requests.get(BASE_URL)
+        if response.status_code == 200:
+            print("搜尋裝置成功", type(response.json()[0]))
+            self.insert(list(response.json()[0].keys())[0])
+        else:
+            print("搜尋裝置失敗:", response.status_code)
+    
+    def insert(self, dev_ip):
+        print('ip', dev_ip)
+        BASE_URL = "http://163.22.17.116:8122/api/device"
+        data = {
+            "dev_ip" : dev_ip
+        }
+        response = requests.post(BASE_URL, json=data)
+        if response.status_code == 201:
+            print("新增裝置成功", response.json())
+            test_device_insert(response.json())
+        else:
+            print("新增裝置失敗:", response.status_code)
+
 if __name__ == "__main__":
     test_get_all_hotkeys()
     test_create_hotkey()
@@ -106,3 +132,6 @@ if __name__ == "__main__":
     zone_change.post('test', '冰箱' + time_str)
     print(zone_change.get())
     test_insert_account()
+    # device
+    device = Device()
+    device.discovery()

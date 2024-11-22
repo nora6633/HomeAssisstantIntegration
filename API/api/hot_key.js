@@ -1,9 +1,9 @@
 const router = require('express').Router();
-const mysql = require('mysql2');
+const mysql = require('mariadb');
 
 // 設定 MySQL 連線
 const db = mysql.createPool({
-    connectionLimit : 5,
+    connectionLimit : 6,
     host: '163.22.17.116',
     user: 'test',
     password: 'test#313',
@@ -12,20 +12,26 @@ const db = mysql.createPool({
 
 // 查詢所有 Hotkey
 router.get('/', async function(req, res) {
-    const conn = await db.getConnection();
-    await conn.query('SELECT * FROM Hotkey', (err, results) => {
-        if (err) {
-            res.status(500).send('查詢失敗');
-        } else {
-            res.json(results);
-        }
-    });
-    conn.release();
+    let conn;
+    try {
+        conn = await db.getConnection();
+        const result = await conn.query('SELECT * FROM Hotkey');
+        res.json(result);
+    }
+    catch(e) {
+        console.error(e);
+        res.status(500).send('查詢失敗');
+    }
+    finally {
+        conn.release();
+    }
 });
 
 // 新增 Hotkey
 router.post('/', async (req, res) => {
-    const { uid, key, value, status = 1 } = req.body;
+    let conn;
+    try {
+        const { uid, key, value, status = 1 } = req.body;
 	console.log('insert', uid, key, value, status);
     const sql = 'INSERT INTO Hotkey (`uid`, `key`, `value`, `status`) VALUES (?, ?, ?, ?)';
     const conn = await db.getConnection();

@@ -5,7 +5,7 @@ from datetime import datetime
 current_time = datetime.now()
 time_str = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
-BASE_URL = "http://163.22.17.116:8122/api/hot_key"
+BASE_URL = "http://localhost:8125/api/hot_key"
 
 class ZoneChange :
     url = 'http://163.22.17.116:8122/api/zone_change'
@@ -29,6 +29,7 @@ class ZoneChange :
         return True
 
 def test_get_all_hotkeys():
+    print("base", BASE_URL)
     response = requests.get(BASE_URL)
     if response.status_code == 200:
         print("查詢成功:", response.json())
@@ -124,6 +125,7 @@ class Device :
 
 if __name__ == "__main__":
     test_get_all_hotkeys()
+    """
     test_create_hotkey()
     test_update_hotkey()
     test_delete_hotkey()
@@ -134,3 +136,4 @@ if __name__ == "__main__":
     # device
     device = Device()
     device.discovery()
+    """

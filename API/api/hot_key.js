@@ -32,52 +32,66 @@ router.post('/', async (req, res) => {
     let conn;
     try {
         const { uid, key, value, status = 1 } = req.body;
-	console.log('insert', uid, key, value, status);
-    const sql = 'INSERT INTO Hotkey (`uid`, `key`, `value`, `status`) VALUES (?, ?, ?, ?)';
-    const conn = await db.getConnection();
-    await conn.query(sql, [uid, key, value, status], (err, result) => {
-        if (err) {
-			console.error(err);
-            res.status(500).send('新增失敗');
-        } else {
-            res.status(201).json({ message: '新增成功', id: result.insertId });
-        }
-    });
-    conn.release();
+        console.log('insert', uid, key, value, status);
+        const sql = 'INSERT INTO Hotkey (`uid`, `key`, `value`, `status`) VALUES (?, ?, ?, ?)';
+        conn = await db.getConnection();
+        const result = await conn.query(sql, [uid, key, value, status])
+        res.status(201).json({ message: '新增成功', id: result.insertId.toString() });
+    }
+    catch(e) {
+        console.error(e);
+        res.status(500).send('新增失敗');
+    }
+    finally {
+        conn.release();
+    }
 });
 
 // 修改 Hotkey
 router.put('/', async (req, res) => {
-    const { uid, key, value, status } = req.body;
-    const sql = 'UPDATE Hotkey SET `value` = ?, `status` = ? WHERE `uid` = ? AND `key` = ?';
-    const conn = await db.getConnection();
-    await conn.query(sql, [value, status, uid, key], (err, result) => {
-        if (err) {
-            res.status(500).send('修改失敗');
-        } else if (result.affectedRows === 0) {
-            res.status(404).send('找不到指定的 Hotkey');
-        } else {
+    let conn;
+    try {
+        const { uid, key, value, status } = req.body;
+        const sql = 'UPDATE Hotkey SET `value` = ?, `status` = ? WHERE `uid` = ? AND `key` = ?';
+        conn = await db.getConnection();
+        const result = await conn.query(sql, [value, status, uid, key]);
+        if (result.affectedRows === 0) {
+            res.json(404).send('找不到指定的 Hotkey');
+        }
+        else {
             res.json({ message: '修改成功' });
         }
-    });
-    conn.release();
+    }
+    catch(e) {
+        console.error(e);
+        res.status(500).send('修改失敗');
+    }
+    finally {
+        conn.release();
+    }
 });
 
 // 刪除 Hotkey
 router.delete('/', async (req, res) => {
-    const { uid, key } = req.body;
-    const sql = 'DELETE FROM Hotkey WHERE `uid` = ? AND `key` = ?';
-    const conn = await db.getConnection();
-    await conn.query(sql, [uid, key], (err, result) => {
-        if (err) {
-            res.status(500).send('刪除失敗');
-        } else if (result.affectedRows === 0) {
+    let conn;
+    try {
+        const { uid, key } = req.body;
+        const sql = 'DELETE FROM Hotkey WHERE `uid` = ? AND `key` = ?';
+        conn = await db.getConnection();
+        const result = await conn.query(sql, [uid, key]);
+        if (result.affectedRows === 0) {
             res.status(404).send('找不到指定的 Hotkey');
         } else {
             res.json({ message: '刪除成功' });
-        }
-    });
-    conn.release();
+        }        
+    }
+    catch(e) {
+        console.error(e);
+        res.status(500).send('刪除失敗');
+    }
+    finally {
+        conn.release();
+    }
 });
 
 module.exports = router;

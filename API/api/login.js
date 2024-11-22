@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const root_account = "test";
 const root_password = "123";
-const mysql = require('mysql2');
+const mysql = require('mariadb');
 
 // 設定 MySQL 連線
 const db = mysql.createPool({
@@ -13,26 +13,22 @@ const db = mysql.createPool({
 });
 
 router.post('/', async function(req, res) {
-    const { account, password } = req.body;
+    let conn;
     try {
-        const conn = await db.getConnection();
-    	conn.query('SELECT COUNT(*) FROM `User` where account = ? and password = ?', [account, password], (err, results) => {
-        	if (err) {
-            	res.status(500).send('查詢失敗');
-        	} else {
-				console.log(results);
-				if (results[0]['COUNT(*)'] > 1)
-            		res.json({ success: true});
-				else 
-	    			res.status(401).json({success: false, message: "unauthorized"});
-        	}
-    	});
-        conn.release();
+        const { account, password } = req.body;
+        conn = await db.getConnection();
+    	const result = await conn.query('SELECT COUNT(*) FROM `User` where account = ? and password = ?', [account, password]);
+	if (result[0]['COUNT(*)'] > 1)
+            res.json({ success: true});
+	else 
+	    res.status(401).json({success: false, message: "unauthorized"});
     } catch (e) {
-        const result = { success: false, message: "Something went wrong: " + e.message };
         console.error(e);
-        res.status(500).json(result);
-    }   
+        res.status(500).json('登入失敗');
+    }
+    finally {
+        conn.release();
+    }
 });
 
 module.exports = router;

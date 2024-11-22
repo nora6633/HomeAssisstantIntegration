@@ -119,7 +119,6 @@ class Device :
         response = requests.post(BASE_URL, json=data)
         if response.status_code == 201:
             print("新增裝置成功", response.json())
-            test_device_insert(response.json())
         else:
             print("新增裝置失敗:", response.status_code)
 

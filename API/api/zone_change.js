@@ -10,22 +10,12 @@ const WS_HA_URL = 'ws://163.22.17.116:8123';
 const mysql = require('mysql2');
 
 // 設定 MySQL 連線
-const db = mysql.createConnection({
+const db = mysql.createPool({
+    connectionLimit : 5,
     host: '163.22.17.116',
     user: 'test',
     password: 'test#313',
     database: 'home_assistant',
-	keepAliveInitialDelay: 10000, // 0 by default.
-	enableKeepAlive: true, // false by default.
-});
-
-// 建立資料庫連線
-db.connect((err) => {
-    if (err) {
-        console.error('資料庫連線失敗:', err);
-        return;
-    }
-    console.log('已成功連線到 MySQL 資料庫');
 });
 
 // 用於帶有身份驗證的 fetch 請求
@@ -77,7 +67,8 @@ router.get('/', async function(req, res) {
   	const query = `
 	SELECT * FROM device;
   	`;
-    db.query(query, (err, result) => {
+    const conn = await db.getConnection();
+    await conn.query(query, (err, result) => {
         if (err) {
 			console.error(err);
 			res.status(500).json({ success: false, message: err });
@@ -85,6 +76,7 @@ router.get('/', async function(req, res) {
             res.status(200).json({ message: result});
         }
     });
+    conn.release();
 })
 
 router.post('/', async function(req, res) {
@@ -94,7 +86,8 @@ router.post('/', async function(req, res) {
     VALUES (?, ?)
 	ON DUPLICATE KEY UPDATE zone = ?;
   	`;
-    db.query(query, [entity_name, zone, zone], (err, result) => {
+    const conn = await db.getConnection();
+    conn.query(query, [entity_name, zone, zone], (err, result) => {
         if (err) {
 			console.error(err);
 			res.status(500).json({ success: false, message: "修改分區失敗" });
@@ -102,6 +95,7 @@ router.post('/', async function(req, res) {
             res.status(201).json({ message: '修改成功'});
         }
     });
+    conn.release();
 })
 
 // 獲取所有區域

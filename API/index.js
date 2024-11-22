@@ -31,6 +31,6 @@ app.use("/api/device", require("./api/device.js"));
 app.use("/js", express.static("./js"));
 app.use("/css", express.static("./css"));
 
-app.listen(8122, () => {
+app.listen(8125, () => {
 	console.log("Node server is running..");
 });

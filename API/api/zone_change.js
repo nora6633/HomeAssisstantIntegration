@@ -7,7 +7,7 @@ const HOME_ASSISTANT_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI4O
 const HA_URL = 'http://163.22.17.116:8123';
 const WS_HA_URL = 'ws://163.22.17.116:8123';
 
-const mysql = require('mysql2');
+const mysql = require('mariadb');
 
 // 設定 MySQL 連線
 const db = mysql.createPool({
@@ -64,38 +64,44 @@ router.post('/update_zone', async function(req, res) {
 });
 
 router.get('/', async function(req, res) {
-  	const query = `
-	SELECT * FROM device;
-  	`;
-    const conn = await db.getConnection();
-    await conn.query(query, (err, result) => {
-        if (err) {
-			console.error(err);
-			res.status(500).json({ success: false, message: err });
-        } else {
-            res.status(200).json({ message: result});
-        }
-    });
-    conn.release();
+    let conn;
+    try {
+        const query = `
+        SELECT * FROM device;
+        `;
+        conn = await db.getConnection();
+        const result = await conn.query(query);
+        res.status(200).json({ message: result});
+    }
+    catch(e) {
+        console.error(e);
+        res.status(500).json({ success: false, message: err });
+    }
+    finally {
+        conn.release();
+    }
 })
 
 router.post('/', async function(req, res) {
-    const { entity_name, zone } = req.body;
-  	const query = `
-    INSERT INTO device (name, zone)
-    VALUES (?, ?)
-	ON DUPLICATE KEY UPDATE zone = ?;
-  	`;
-    const conn = await db.getConnection();
-    conn.query(query, [entity_name, zone, zone], (err, result) => {
-        if (err) {
-			console.error(err);
-			res.status(500).json({ success: false, message: "修改分區失敗" });
-        } else {
-            res.status(201).json({ message: '修改成功'});
-        }
-    });
-    conn.release();
+    let conn;
+    try {
+        const { entity_name, zone } = req.body;
+        const query = `
+        INSERT INTO device (name, zone)
+        VALUES (?, ?)
+        ON DUPLICATE KEY UPDATE zone = ?;
+        `;
+        conn = await db.getConnection();
+        const result = await conn.query(query, [entity_name, zone, zone]);
+        res.status(201).json({ message: '修改成功'});
+    }
+    catch(e) {
+        console.error(e);
+        res.status(500).json({ success: false, message: "修改分區失敗" });
+    }
+    finally {
+        conn.release();
+    }
 })
 
 // 獲取所有區域

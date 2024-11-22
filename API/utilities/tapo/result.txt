@@ -1,0 +1,94 @@
+192.168.0.1
+'NoneType' object has no attribute 'get'
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f8f64b740>
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f905047d0>
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f90747cb0>
+192.168.0.100
+Cannot connect to host 192.168.0.100:80 ssl:default [Connect call failed ('192.168.0.100', 80)]
+192.168.0.101
+Cannot connect to host 192.168.0.101:80 ssl:default [Connect call failed ('192.168.0.101', 80)]
+192.168.0.102
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f904ff800>
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f90747890>
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f90fbf950>
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f90738740>
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f8f64b9b0>
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f8f64b830>
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f8f64b140>
+Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x7f8f642f30>, 681816.04885518)])']
+connector: <aiohttp.connector.TCPConnector object at 0x7f8f64a9f0>
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f8f64a5d0>
+device_ip 192.168.0.102
+{'type': <class 'plugp100.new.tapoplug.TapoPlug'>, 'protocol': 'Klap V2', 'raw_state': {'device_id': '8022F881772AAD543051890A0590996A21FBF2BF', 'fw_ver': '1.2.5 Build 240830 Rel.153927', 'hw_ver': '1.0', 'type': 'SMART.TAPOPLUG', 'model': 'P125M', 'mac': 'A8-42-A1-5A-90-56', 'hw_id': '2FC888D7D3D00C936B93EA38D06641B3', 'fw_id': '00000000000000000000000000000000', 'oem_id': '1C05A0DF3EC1312F5175A6F0F0E8A38E', 'ip': '192.168.0.102', 'time_diff': 480, 'ssid': 'TGFiQjI0', 'rssi': -45, 'signal_level': 3, 'auto_off_status': 'off', 'auto_off_remain_time': 0, 'longitude': 1209280, 'latitude': 239518, 'lang': 'zh_TW', 'avatar': 'plug', 'region': 'Asia/Taipei', 'specs': '', 'nickname': '5pm65oWn5Z6L5o+S5bqn', 'has_set_location_info': True, 'device_on': True, 'on_time': 3307, 'default_states': {'type': 'last_states', 'state': {}}}, 'components': dict_values([<plugp100.new.components.on_off_component.OnOffComponent object at 0x7f905047a0>, <plugp100.new.components.overheat_component.OverheatComponent object at 0x7f920fdac0>, <plugp100.new.components.countdown.Countdown object at 0x7f921bfe00>])}
+192.168.0.103
+Cannot connect to host 192.168.0.103:80 ssl:default [Connect call failed ('192.168.0.103', 80)]
+192.168.0.105
+Cannot connect to host 192.168.0.105:80 ssl:default [Connect call failed ('192.168.0.105', 80)]
+192.168.0.107
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f910bcd40>
+Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x7f8f643890>, 681816.791363785)])']
+connector: <aiohttp.connector.TCPConnector object at 0x7f8f6ddc40>
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f8f64bb00>
+device_ip 192.168.0.107
+{'type': <class 'plugp100.new.tapobulb.TapoBulb'>, 'protocol': 'Klap V2', 'raw_state': {'device_id': '80239758DC45C7F73B4D0594664589812272C3C6', 'fw_ver': '1.1.1 Build 240625 Rel.205528', 'hw_ver': '1.0', 'type': 'SMART.TAPOBULB', 'model': 'L900', 'mac': '24-2F-D0-ED-A8-0A', 'hw_id': '17A075F2055FD95D99BE012EB439F21C', 'fw_id': '00000000000000000000000000000000', 'oem_id': '8807B384544C42EFE1B0ABB0C45CAA8E', 'color_temp_range': [9000, 9000], 'overheated': False, 'ip': '192.168.0.107', 'time_diff': 480, 'ssid': 'TGFiQjI0', 'rssi': -41, 'signal_level': 3, 'longitude': 1209283, 'latitude': 239545, 'lang': 'zh_TW', 'avatar': 'light_strip', 'region': 'Asia/Taipei', 'specs': '', 'nickname': '5pm65oWn54eI5qKd', 'has_set_location_info': True, 'lighting_effect': {'enable': 0, 'id': '', 'name': 'station', 'custom': 0, 'brightness': 50, 'display_colors': []}, 'music_rhythm_enable': False, 'music_rhythm_mode': 'single_lamp', 'device_on': True, 'brightness': 50, 'hue': 26, 'saturation': 66, 'color_temp': 0, 'default_states': {'type': 'last_states', 'state': {'brightness': 50, 'hue': 26, 'saturation': 66, 'color_temp': 0}}}, 'components': dict_values([<plugp100.new.components.light_component.LightComponent object at 0x7f90745c40>, <plugp100.new.components.light_effect_component.LightEffectComponent object at 0x7f91933800>, <plugp100.new.components.overheat_component.OverheatComponent object at 0x7f8f64b020>, <plugp100.new.components.countdown.Countdown object at 0x7f910b9f70>])}
+192.168.0.110
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f8f64b890>
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f8f64a480>
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f8f64b8c0>
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f8f64af90>
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f8f64af00>
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f8f8ea2a0>
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f8f6dc9b0>
+Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x7f8f6433b0>, 681817.249076916)])']
+connector: <aiohttp.connector.TCPConnector object at 0x7f8f6dd700>
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f8f8c5f70>
+device_ip 192.168.0.110
+{'type': <class 'plugp100.new.tapoplug.TapoPlug'>, 'protocol': 'Klap V2', 'raw_state': {'device_id': '8022C05C2A144B7DD1013E6435F05B4B231E7A63', 'fw_ver': '1.1.3 Build 240523 Rel.175054', 'hw_ver': '1.0', 'type': 'SMART.TAPOPLUG', 'model': 'P110', 'mac': 'B0-19-21-85-7C-C7', 'hw_id': 'C37D248E3837952796AB2C2FBE6489C8', 'fw_id': '00000000000000000000000000000000', 'oem_id': '51036D56A335FC0DF87CD329F6729FC0', 'ip': '192.168.0.110', 'time_diff': 480, 'ssid': 'TGFiQjI0', 'rssi': -42, 'signal_level': 3, 'auto_off_status': 'off', 'auto_off_remain_time': 0, 'longitude': -1879048193, 'latitude': -1879048193, 'lang': 'zh_TW', 'avatar': 'plug', 'region': 'Asia/Taipei', 'specs': 'US', 'nickname': 'VGFwbyDpm7vph4/ntbHoqIjmj5Lluqc=', 'has_set_location_info': False, 'device_on': True, 'on_time': 47716, 'default_states': {'type': 'last_states', 'state': {}}, 'overheat_status': 'normal', 'power_protection_status': 'normal', 'overcurrent_status': 'normal', 'charging_status': 'normal'}, 'components': dict_values([<plugp100.new.components.on_off_component.OnOffComponent object at 0x7f90730ec0>, <plugp100.new.components.energy_component.EnergyComponent object at 0x7f8f8a0e30>, <plugp100.new.components.overheat_component.OverheatComponent object at 0x7f8f8cb980>, <plugp100.new.components.countdown.Countdown object at 0x7f8f8f0560>])}
+192.168.0.111
+Cannot connect to host 192.168.0.111:80 ssl:default [Connect call failed ('192.168.0.111', 80)]
+tapo ips [['192.168.0.102', <DeviceType.Plug model P125M at 192.168.0.102 (智慧型插座) - dev specific: DeviceInfo(device_id='8022F881772AAD543051890A0590996A21FBF2BF', hardware_id='2FC888D7D3D00C936B93EA38D06641B3', oem_id='1C05A0DF3EC1312F5175A6F0F0E8A38E', firmware_version='1.2.5 Build 240830 Rel.153927', hardware_version='1.0', ip='192.168.0.102', mac='A8-42-A1-5A-90-56', nickname='智慧型插座', model='P125M', type='SMART.TAPOPLUG', overheated=False, ssid='LabB24', signal_level=3, rssi=-45, friendly_name='智慧型插座', has_set_location_info=True, latitude=239518, longitude=1209280, timezone='Asia/Taipei', time_difference=480, language='zh_TW', is_hardware_v2=False)>], ['192.168.0.107', <DeviceType.Bulb model L900 at 192.168.0.107 (智慧燈條) - dev specific: DeviceInfo(device_id='80239758DC45C7F73B4D0594664589812272C3C6', hardware_id='17A075F2055FD95D99BE012EB439F21C', oem_id='8807B384544C42EFE1B0ABB0C45CAA8E', firmware_version='1.1.1 Build 240625 Rel.205528', hardware_version='1.0', ip='192.168.0.107', mac='24-2F-D0-ED-A8-0A', nickname='智慧燈條', model='L900', type='SMART.TAPOBULB', overheated=False, ssid='LabB24', signal_level=3, rssi=-41, friendly_name='智慧燈條', has_set_location_info=True, latitude=239545, longitude=1209283, timezone='Asia/Taipei', time_difference=480, language='zh_TW', is_hardware_v2=False)>], ['192.168.0.110', <DeviceType.Plug model P110 at 192.168.0.110 (Tapo 電量統計插座) - dev specific: DeviceInfo(device_id='8022C05C2A144B7DD1013E6435F05B4B231E7A63', hardware_id='C37D248E3837952796AB2C2FBE6489C8', oem_id='51036D56A335FC0DF87CD329F6729FC0', firmware_version='1.1.3 Build 240523 Rel.175054', hardware_version='1.0', ip='192.168.0.110', mac='B0-19-21-85-7C-C7', nickname='Tapo 電量統計插座', model='P110', type='SMART.TAPOPLUG', overheated=False, ssid='LabB24', signal_level=3, rssi=-42, friendly_name='Tapo 電量統計插座', has_set_location_info=False, latitude=-1879048193, longitude=-1879048193, timezone='Asia/Taipei', time_difference=480, language='zh_TW', is_hardware_v2=False)>]]
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f8f6dc6e0>
+Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x7f8f643b30>, 681817.767137618)])']
+connector: <aiohttp.connector.TCPConnector object at 0x7f8f6dc710>
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f8f64aa80>
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f8f6dcc80>
+Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x7f8f643710>, 681816.306504034)])']
+connector: <aiohttp.connector.TCPConnector object at 0x7f8f64b110>
+Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x7f8f643e30>, 681817.053792341)])']
+connector: <aiohttp.connector.TCPConnector object at 0x7f8f6dccb0>
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f90732c60>
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f8f64be30>
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7f8f64b800>

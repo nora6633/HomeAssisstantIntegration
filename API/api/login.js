@@ -5,7 +5,7 @@ const mysql = require('mysql2');
 
 // 設定 MySQL 連線
 const db = mysql.createConnection({
-    host: 'localhost',
+    host: '163.22.17.116',
     user: 'test',
     password: 'test#313',
     database: 'home_assistant',

@@ -174,7 +174,7 @@ router.get('/binary_sensor.', async function(req, res) {
     try {
 		const devices = await getAllDevices();
         const controllableDevices = devices.filter(device => 
-        device.entity_id.startsWith('binary_sensor..')
+        device.entity_id.startsWith('binary_sensor.')
         );
         console.log(controllableDevices);
         res.json({success: true, message:controllableDevices});

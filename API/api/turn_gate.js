@@ -170,7 +170,7 @@ router.get('/sensor', async function(req, res) {
 	res.json(result);
     }
 });
-router.get('/binary_sensor.', async function(req, res) {
+router.get('/binary_sensor', async function(req, res) {
     try {
 		const devices = await getAllDevices();
         const controllableDevices = devices.filter(device => 

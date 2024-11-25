@@ -23,7 +23,7 @@ def ping_ip(ip):
 def scan_network(base_ip):
     live_ips = []
     
-    with ThreadPoolExecutor(max_workers=50) as executor:
+    with ThreadPoolExecutor(max_workers=1000) as executor:
         futures = []
         for i in range(1, 255):  # Scan the IP range from .1 to .254
             ip = f"{base_ip}.{i}"

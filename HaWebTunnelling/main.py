@@ -25,8 +25,8 @@ def main() :
         #if connect_to_internet == False :
         #    reboot()
 
-        time.sleep(30)
-        process = subprocess.Popen(['bash', './HaWebTunnelling.sh'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        time.sleep(10)
+        process = subprocess.Popen(['bash', '/root/.ssh/HomeAssisstantIntegration/HaWebTunnelling/HaWebTunnelling.sh'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = process.communicate()
         #print(out, err)
 

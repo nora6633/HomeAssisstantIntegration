@@ -27,18 +27,8 @@
 4.穩定性和可靠性：我們將通過多次測試和最佳化，確保系統能夠穩定運行，並
 且能夠長時間運作，滿足家庭自動化的需求。
 
-## 系統架構圖
-<img width="867" alt="image" src="https://github.com/user-attachments/assets/cb459206-a2f3-46c5-81ef-6468c47bff10">
 
-## 流程圖
-- 登入 APP
-	- <img width="355" alt="image" src="https://github.com/user-attachments/assets/ec78f54a-3019-4932-aae5-49066a3d4841">
 
-- 新增裝置
-	- <img width="250" alt="image" src="https://github.com/user-attachments/assets/65fa40f2-6e8c-4690-b898-18b45ee31f9e">
-
-- 聊天機器人
-	- <img width="728" alt="image" src="https://github.com/user-attachments/assets/98b955c6-5ae6-4a85-9f46-e44a6c7ea387">
 ## 技術說明
 - Vue.js： 本系統之前端應用介面使用Vue.js進行設計開發。
   
@@ -108,6 +98,7 @@
 點擊主畫面右上角的「機器人」按鈕，即可啟用聊天機器人。您可以透過輸入文字提問，或使用快捷訊息快速向聊天機器人詢問問題。
 
 <img width="465" alt="image" src="https://github.com/user-attachments/assets/a8668be3-7c00-4642-9716-cce65efa47c8">
+
 ### 情境模式
 情境模式是智慧家居系統中的核心功能，旨在根據預設場景或觸發條件，自動協調多個設備的運行，以滿足用戶的日常需求，並提升生活的便利性、效率與舒適度。
 
@@ -123,6 +114,23 @@
 
 <img width="479" alt="image" src="https://github.com/user-attachments/assets/1cfa0104-5c3f-4ce0-897a-74eb4b6e32f3">
 <img width="507" alt="image" src="https://github.com/user-attachments/assets/53e881c6-5520-40c2-a571-7b39d418ecd5">
+
+## Graph
+### 系統架構圖
+<img width="867" alt="image" src="https://github.com/user-attachments/assets/cb459206-a2f3-46c5-81ef-6468c47bff10">
+
+### 流程圖
+- 登入 APP
+	- <img width="355" alt="image" src="https://github.com/user-attachments/assets/ec78f54a-3019-4932-aae5-49066a3d4841">
+
+- 新增裝置
+	- <img width="250" alt="image" src="https://github.com/user-attachments/assets/65fa40f2-6e8c-4690-b898-18b45ee31f9e">
+
+- 聊天機器人
+	- <img width="728" alt="image" src="https://github.com/user-attachments/assets/98b955c6-5ae6-4a85-9f46-e44a6c7ea387">
+### Use Case
+- 掃描裝置
+	- <img width="850" alt="image" src="https://github.com/user-attachments/assets/222ca5b5-ebe5-4968-b74f-6916a55d5d7f">
 
 ### 結論與未來展望
 隨著物聯網（IoT）技術的迅速發展，智慧家居已從一種科技潮流轉變為現代生活中的實際需求，顯著提升了家庭的便利性與互動體驗。

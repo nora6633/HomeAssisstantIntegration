@@ -132,6 +132,74 @@
 - 掃描裝置
 	- <img width="850" alt="image" src="https://github.com/user-attachments/assets/222ca5b5-ebe5-4968-b74f-6916a55d5d7f">
 
+## 如何和 tapo 溝通
+### 觀察的方法
+- packet sniffing
+    - 攔截 tapo app 和 device 溝通的封包並觀察內容
+- reverse engineering
+    - 將 tapo app 的 `.apk` 反編譯成 java source code
+### tapo app
+- tapo 中，有部分裝置會使用 http 和 app 溝通，因此我們可以觀察封包的內容，並嘗試利用我們建立的 http request 而不是 tapo app 和裝置溝通
+1. handshake request : POST `http://<device-ip>/app`
+    - body
+        ```java=
+        {
+          "method": "handshake",
+          "params": {
+            "key": "-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCiHkY5laTugGN1Hf/sBHiiw6mnnkohmvVHHHGJqwRx59RjQaL/SPBoLpeNRgN3B/uykzYTLUVMpTcWSZHsS6FfhdoOkJ1B6nit6nheIfltbP99uJduP1JQ44S9dqUr73w++Lpl6TKrzK3KOc5z/vc9xmqiKK6PYbFZu2evCsL19wIDAQAB-----END PUBLIC KEY-----\n"
+          },
+          "requestTimeMils": 0
+        }
+        ```
+    - 實作 key 的 java source code : 利用 RSA 產生非對稱式加密的 public/private key，再利用 base64 編碼後傳輸
+        ```java=
+        public void mo35029c() {
+            KeyPairGenerator instance = KeyPairGenerator.getInstance("RSA");
+            instance.initialize(1024, new SecureRandom());
+            KeyPair generateKeyPair = instance.generateKeyPair();
+            String str = new String(Base64.encode(((RSAPublicKey) generateKeyPair.getPublic()).getEncoded(), 0));
+            String str2 = new String(Base64.encode(((RSAPrivateKey) generateKeyPair.getPrivate()).getEncoded(), 0));
+            this.f20965b.put(0, str);
+            this.f20965b.put(1, str2);
+        }
+        ```
+2. authentication request
+    - 將 tapo app 的帳號密碼給該 device，device 會再去確認是否可以登入
+    - request body
+        ```java=
+        {
+          "method": "login_device",
+          "params": {
+            "password": "ITcyNjU....",
+            "username": "MzhhNTk2NT..."
+          },
+          "requestTimeMils": 0
+        }
+        ```
+4. data request
+    - 可以開始傳輸資料做 device 設定
+    - request body
+        ```=
+        {
+          "method": "set_device_info",
+          "params": {
+            "device_on": false
+          },
+          "requestTimeMils": 1602840338865,
+          "terminalUUID": "88-54-DE-AD-52-E1"
+        }
+        ```
+### plugp100
+- `plugp100` : 目前此 custom component 實作了 tapo 部分裝置的搜尋和控制（新增裝置到 HA, 更改裝置狀態）的功能
+- 搜尋問題
+    1. 有時候會找不到全部的 device：後來發現因此 component 使用 udp broadcast 來尋找 device，但是在指定的 timeout 時間內，udp socket 不一定會接受到所有 device 的 response
+    2. 找到無法控制的 device ：因為新出的 tapo device 的新版 firmware 會使用不同 protocol（從 http 變 https）和 tapo app 溝通，但是此情況下 plugp100 仍會顯示新出的 tapo device，但該 tapo device 無法用 plugp100 目前提供的控制方式（http）讓該 device 連接到 home assistant
+- 解決方法
+    - 利用 `ping` 和 plugp100 提供的控制方式寫一個偵測和新增 tapo device 的功能解決上述兩個問題
+    - 利用 multithreading 加速尋找的效能
+### ref
+- https://k4czp3r.xyz/blog/post/reverse-engineering-tp-link-tapo
+- https://github.com/petretiandrea/plugp100/blob/main/plugp100/discovery/tapo_discovery.py
 ### 結論與未來展望
 隨著物聯網（IoT）技術的迅速發展，智慧家居已從一種科技潮流轉變為現代生活中的實際需求，顯著提升了家庭的便利性與互動體驗。
 

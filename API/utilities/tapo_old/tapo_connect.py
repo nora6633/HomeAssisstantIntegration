@@ -39,7 +39,7 @@ async def getinfo(device) :
 async def main(ip):
     try :
         # await example_connect_by_guessing(auth, ip)
-        # auth = AuthCredential("annnna6633@gmail.com", "a12345678")
+        # auth = AuthCredential("", "")
         await getinfo(await connect(device_config(auth, ip)))
     except Exception as e :
         print(e)

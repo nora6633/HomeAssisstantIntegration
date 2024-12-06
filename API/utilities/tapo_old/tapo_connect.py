@@ -2,7 +2,7 @@ import asyncio
 import sys
 from plugp100.common.credentials import AuthCredential
 from plugp100.new.device_factory import connect, DeviceConnectConfiguration
-auth = AuthCredential("annnna6633@gmail.com", "a12345678")
+auth = AuthCredential("", "")
 
 def device_config(auth : AuthCredential, host : str) :
     return DeviceConnectConfiguration(

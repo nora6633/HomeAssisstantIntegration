@@ -1,5 +1,7 @@
-##### 筆記：https://hackmd.io/@anna0131/Syjaf0iykg
-##### 影片：https://youtu.be/x5yNiuo9750?si=7jILmJG8evsTAPqR
+##### 系統 Demo 影片：https://youtu.be/x5yNiuo9750?si=7jILmJG8evsTAPqR
+##### 專題筆記：https://hackmd.io/@anna0131/Syjaf0iykg
+##### 總審 PPT：https://www.canva.com/design/DAGYJFZzXxM/vv14oABO_XdY974AIL4eYA/edit?utm_content=DAGYJFZzXxM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+
 ## Background and Objectives
 智慧家庭已經成為現代生活的一部分。智慧家電的普及不僅提升了我們的生活品質，還在節能減碳方面展現了很大的潛力。
 

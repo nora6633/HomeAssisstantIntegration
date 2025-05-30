@@ -1,6 +1,6 @@
 ##### 系統 Demo 影片：https://youtu.be/x5yNiuo9750?si=7jILmJG8evsTAPqR
-##### 專題筆記：https://hackmd.io/@anna0131/Syjaf0iykg
-##### 總審 PPT：https://www.canva.com/design/DAGYJFZzXxM/vv14oABO_XdY974AIL4eYA/edit?utm_content=DAGYJFZzXxM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+##### 開發筆記：https://hackmd.io/@anna0131/Syjaf0iykg
+##### 專題總審簡報：https://www.canva.com/design/DAGYJFZzXxM/vv14oABO_XdY974AIL4eYA/edit?utm_content=DAGYJFZzXxM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
 ## Background and Objectives
 智慧家庭已經成為現代生活的一部分。智慧家電的普及不僅提升了我們的生活品質，還在節能減碳方面展現了很大的潛力。
@@ -25,6 +25,14 @@
 		- 支援設備聯動與定時功能。
 	 	- 理解如「能否讓臥室更亮？」等語意性問題並給予建議或直接操作。
 
+
+## Graph
+### 系統架構圖
+<img width="867" alt="image" src="https://github.com/user-attachments/assets/cb459206-a2f3-46c5-81ef-6468c47bff10">
+
+### Use Case
+- 掃描裝置
+<img width="850" alt="image" src="https://github.com/user-attachments/assets/222ca5b5-ebe5-4968-b74f-6916a55d5d7f">
 
 ## System Features
 ### 設備管理
@@ -86,10 +94,6 @@
 <img width="479" alt="image" src="https://github.com/user-attachments/assets/1cfa0104-5c3f-4ce0-897a-74eb4b6e32f3">
 <img width="507" alt="image" src="https://github.com/user-attachments/assets/53e881c6-5520-40c2-a571-7b39d418ecd5">
 
-## Graph
-### 系統架構圖
-<img width="867" alt="image" src="https://github.com/user-attachments/assets/cb459206-a2f3-46c5-81ef-6468c47bff10">
-
 ### 流程圖
 - 登入 APP
 	- <img width="355" alt="image" src="https://github.com/user-attachments/assets/ec78f54a-3019-4932-aae5-49066a3d4841">
@@ -99,9 +103,6 @@
 
 - 聊天機器人
 	- <img width="728" alt="image" src="https://github.com/user-attachments/assets/98b955c6-5ae6-4a85-9f46-e44a6c7ea387">
-### Use Case
-- 掃描裝置
-	- <img width="850" alt="image" src="https://github.com/user-attachments/assets/222ca5b5-ebe5-4968-b74f-6916a55d5d7f">
 
 ## 如何和 tapo 溝通
 ### 觀察的方法
@@ -172,13 +173,6 @@
 - https://k4czp3r.xyz/blog/post/reverse-engineering-tp-link-tapo
 - https://github.com/petretiandrea/plugp100/blob/main/plugp100/discovery/tapo_discovery.py
 
-### 專題分工
-- 楊于葳：前端開發、場景佈置
-- 蔣馥安：後端開發、Linux Server 維運&管理、硬體實作
-- 陳維德：後端開發
-- 謝欣秀：撰寫總審文件、製作簡報
-- 邱靖恩：設計系統 UI、製作宣傳影片和海報
-- 廖書嫻：設計系統 UI、製作宣傳影片和海報
 
 ### API
 - note
@@ -398,3 +392,12 @@
   - `node node_modules\puppeteer\install.mjs`
   - `node index.js`
   - API Server is open on 127.0.0.1:8122
+
+
+### 專題分工
+- 楊于葳：前端開發、場景佈置
+- 蔣馥安：後端開發、Linux Server 維運&管理、硬體實作
+- 陳維德：後端開發
+- 謝欣秀：撰寫總審文件、製作簡報
+- 邱靖恩：設計系統 UI、製作宣傳影片和海報
+- 廖書嫻：設計系統 UI、製作宣傳影片和海報

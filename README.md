@@ -1,5 +1,5 @@
 ##### 系統 Demo 影片：https://youtu.be/x5yNiuo9750?si=7jILmJG8evsTAPqR
-##### 開發筆記：https://hackmd.io/@anna0131/Syjaf0iykg
+##### 開發筆記：https://hackmd.io/@nora6633/Syjaf0iykg
 ##### 專題總審簡報：https://www.canva.com/design/DAGYJFZzXxM/vv14oABO_XdY974AIL4eYA/edit?utm_content=DAGYJFZzXxM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
 ## Background and Objectives
